@@ -1,14 +1,13 @@
 package net.gahfy.feedme.ui.post
 
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_post.*
 import net.gahfy.feedme.R
 import net.gahfy.feedme.base.BaseActivity
-import net.gahfy.feedme.databinding.ActivityPostBinding
 import net.gahfy.feedme.model.Post
 
 /**
@@ -18,20 +17,19 @@ class PostActivity : BaseActivity<PostPresenter>(), PostView {
     /**
      * DataBinding instance
      */
-    private lateinit var binding: ActivityPostBinding
+    private lateinit var adapter: PostAdapter
 
     /**
      * The adapter for the list of posts
      */
-    private val postsAdapter = PostAdapter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_post)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_post)
-        binding.adapter = postsAdapter
-        binding.layoutManager = LinearLayoutManager(this)
-        binding.dividerItemDecoration = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
+        adapter = PostAdapter(this)
+        posts.adapter = adapter
+        posts.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         presenter.onViewCreated()
     }
@@ -42,7 +40,7 @@ class PostActivity : BaseActivity<PostPresenter>(), PostView {
     }
 
     override fun updatePosts(posts: List<Post>) {
-        postsAdapter.updatePosts(posts)
+        adapter.updatePosts(posts)
     }
 
     override fun showError(error: String) {
@@ -50,11 +48,11 @@ class PostActivity : BaseActivity<PostPresenter>(), PostView {
     }
 
     override fun showLoading() {
-        binding.progressVisibility = View.VISIBLE
+        progressBar.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        binding.progressVisibility = View.GONE
+        progressBar.visibility = View.GONE
     }
 
     override fun instantiatePresenter(): PostPresenter {
