@@ -31,8 +31,8 @@ class PostAdapter(private val context: Context) : RecyclerView.Adapter<PostAdapt
         return posts.count()
     }
 
-    override fun onBindViewHolder(holder: PostViewHolder?, position: Int) {
-        holder?.bind(posts[position])
+    override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+        holder.bind(posts[position])
     }
 
 

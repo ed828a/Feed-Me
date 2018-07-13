@@ -1,13 +1,19 @@
 package net.gahfy.feedme.injection.module
 
+import android.util.Log
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import io.reactivex.schedulers.Schedulers
 import net.gahfy.feedme.network.PostApi
+import net.gahfy.feedme.network.YoutubeApi
 import net.gahfy.feedme.utils.BASE_URL
+import net.gahfy.feedme.utils.YOUTUBE_BASE_URL
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 /**
@@ -42,5 +48,26 @@ object NetworkModule {
                 .addConverterFactory(MoshiConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .build()
+    }
+
+
+    @Provides
+    @Reusable
+    @JvmStatic
+    internal fun provideYoutubeApi(): YoutubeApi{
+        val logger = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
+            Log.d("YoutubeApi", it)
+        })
+        logger.level = HttpLoggingInterceptor.Level.BASIC
+
+        val okHttpClient = OkHttpClient.Builder().addInterceptor(logger).build()
+
+        return Retrofit.Builder()
+                .baseUrl(YOUTUBE_BASE_URL)
+                .client(okHttpClient)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(YoutubeApi::class.java)
     }
 }

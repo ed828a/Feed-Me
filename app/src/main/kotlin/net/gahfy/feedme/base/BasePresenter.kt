@@ -5,6 +5,7 @@ import net.gahfy.feedme.injection.component.PresenterInjector
 import net.gahfy.feedme.injection.module.ContextModule
 import net.gahfy.feedme.injection.module.NetworkModule
 import net.gahfy.feedme.ui.post.PostPresenter
+import net.gahfy.feedme.ui.youtube.YoutubePresenter
 
 /**
  * Base presenter any presenter of the application must extend. It provides initial injections and
@@ -42,6 +43,7 @@ abstract class BasePresenter<out V : BaseView>(protected val view: V) {
     private fun inject() {
         when (this) {
             is PostPresenter -> injector.inject(this)
+            is YoutubePresenter -> injector.inject(this)
         }
     }
 }

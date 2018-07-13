@@ -9,3 +9,4 @@ package net.gahfy.feedme.model
  * @property body the content of the post
  */
 data class Post(val userId: Int, val id: Int, val title: String, val body: String)
+

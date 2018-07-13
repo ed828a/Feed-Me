@@ -6,6 +6,7 @@ import net.gahfy.feedme.base.BaseView
 import net.gahfy.feedme.injection.module.ContextModule
 import net.gahfy.feedme.injection.module.NetworkModule
 import net.gahfy.feedme.ui.post.PostPresenter
+import net.gahfy.feedme.ui.youtube.YoutubePresenter
 import javax.inject.Singleton
 
 
@@ -20,6 +21,8 @@ interface PresenterInjector {
      * @param postPresenter PostPresenter in which to inject the dependencies
      */
     fun inject(postPresenter: PostPresenter)
+
+    fun inject(youtubePresenter: YoutubePresenter)
 
     @Component.Builder
     interface Builder {
